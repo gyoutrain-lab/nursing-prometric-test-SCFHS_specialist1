@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCFHS Senior Nursing Licensing Examination Simulator (220 Items)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        prometric: {
+                            blue: '#002B49',
+                            teal: '#008080',
+                            gold: '#C59B27',
+                            lightBg: '#F8FAFC',
+                            darkBg: '#0B0F19',
+                            cardDark: '#1E293B',
+                            accentRed: '#DC2626'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.05); }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.25); border-radius: 3px; }
+        .font-sz-sm { font-size: 0.875rem; }
+        .font-sz-md { font-size: 1rem; }
+        .font-sz-lg { font-size: 1.125rem; }
+        .font-sz-xl { font-size: 1.25rem; }
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white !important; color: black !important; }
+        }
+    </style>
+</head>
+<body class="h-full bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-100 font-sans flex flex-col transition-colors duration-200 select-none">
+
+    <header class="bg-prometric-blue text-white shadow-lg sticky top-0 z-30 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap justify-between items-center text-xs md:text-sm">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white/10 p-2 rounded-md flex items-center justify-center border border-white/20">
+                    <i class="fa-solid fa-user-doctor text-prometric-gold text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold tracking-wide text-sm md:text-base text-white">SCFHS SENIOR NURSING PROMETRIC LICENSING EXAM</h1>
+                    <p class="text-slate-300 text-xs flex items-center space-x-2">
+                        <span>Candidate: <span class="font-mono text-prometric-gold font-semibold">SCFHS-SR-NURSING</span></span>
+                        <span class="text-slate-500">|</span>
+                        <span>Level: <span class="text-emerald-400 font-semibold">Senior Specialist / Specialist</span></span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-3 mt-2 md:mt-0">
+                <div id="timerContainer" class="bg-slate-950/80 border border-slate-700 px-3 py-1.5 rounded flex items-center space-x-2 shadow-inner">
+                    <i class="fa-regular fa-clock text-prometric-gold animate-pulse"></i>
+                    <span id="timerDisplay" class="font-mono text-base font-bold text-white">04:00:00</span>
+                </div>
+
+                <div class="hidden sm:flex items-center bg-slate-800 rounded p-0.5 border border-slate-700">
+                    <button onclick="changeFontSize('sm')" class="px-2 py-1 text-xs hover:bg-slate-700 rounded text-slate-300">A-</button>
+                    <button onclick="changeFontSize('md')" class="px-2 py-1 text-xs hover:bg-slate-700 rounded font-bold text-white">A</button>
+                    <button onclick="changeFontSize('lg')" class="px-2 py-1 text-xs hover:bg-slate-700 rounded text-sm text-slate-300">A+</button>
+                </div>
+
+                <button onclick="toggleDarkMode()" class="p-2 hover:bg-white/10 rounded-full text-slate-200 hover:text-white transition" title="Toggle Theme">
+                    <i class="fa-solid fa-moon text-sm" id="themeIcon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div id="examContainer" class="flex-1 flex overflow-hidden relative">
+        
+        <!-- SIDE NAVIGATION DRAWER (QUESTION GRID) -->
+        <aside id="navDrawer" class="w-80 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col transition-all duration-300 z-20 absolute md:relative inset-y-0 left-0 -translate-x-full md:translate-x-0 shadow-2xl md:shadow-none">
+            <div class="p-3 bg-slate-100 dark:bg-slate-800/90 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
+                <span class="font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300">220 Items Grid</span>
+                <span class="text-xs bg-slate-200 dark:bg-slate-700 px-2.5 py-0.5 rounded-full font-bold text-prometric-blue dark:text-sky-400" id="completionCounter">0 / 220</span>
+                <button onclick="toggleNavDrawer()" class="md:hidden text-slate-500 hover:text-slate-700 dark:text-slate-400">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div class="p-2 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700 grid grid-cols-3 gap-1 text-[11px] text-center">
+                <div class="flex items-center justify-center space-x-1">
+                    <span class="w-3 h-3 bg-white border border-slate-300 dark:bg-slate-800 dark:border-slate-600 rounded-sm inline-block"></span>
+                    <span>Unanswered</span>
+                </div>
+                <div class="flex items-center justify-center space-x-1">
+                    <span class="w-3 h-3 bg-emerald-600 rounded-sm inline-block"></span>
+                    <span>Answered</span>
+                </div>
+                <div class="flex items-center justify-center space-x-1">
+                    <span class="w-3 h-3 bg-amber-500 rounded-sm inline-block"></span>
+                    <span>Flagged</span>
+                </div>
+            </div>
+
+            <!-- Scrollable Question Grid Buttons -->
+            <div class="flex-1 overflow-y-auto p-3 grid grid-cols-5 gap-1.5 align-content-start" id="questionGrid"></div>
+
+            <div class="p-3 bg-slate-50 dark:bg-slate-900/80 border-t border-slate-200 dark:border-slate-700 text-xs space-y-1">
+                <p class="font-bold text-slate-700 dark:text-slate-300 mb-1">SCFHS Blueprint Domains:</p>
+                <div class="flex justify-between text-[11px] text-slate-500 dark:text-slate-400"><span>Adult Med-Surg</span><span class="font-semibold text-slate-700 dark:text-slate-200">35%</span></div>
+                <div class="flex justify-between text-[11px] text-slate-500 dark:text-slate-400"><span>Maternal & Child</span><span class="font-semibold text-slate-700 dark:text-slate-200">25%</span></div>
+                <div class="flex justify-between text-[11px] text-slate-500 dark:text-slate-400"><span>Leadership & Safety</span><span class="font-semibold text-slate-700 dark:text-slate-200">15%</span></div>
+                <div class="flex justify-between text-[11px] text-slate-500 dark:text-slate-400"><span>Mental & Community</span><span class="font-semibold text-slate-700 dark:text-slate-200">15%</span></div>
+                <div class="flex justify-between text-[11px] text-slate-500 dark:text-slate-400"><span>Emergency & Critical Care</span><span class="font-semibold text-slate-700 dark:text-slate-200">10%</span></div>
+            </div>
+        </aside>
+
+        <main class="flex-1 flex flex-col bg-white dark:bg-slate-900 overflow-y-auto" id="questionContentArea">
+            <div class="bg-slate-50 dark:bg-slate-800/60 px-4 py-2 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center text-xs md:text-sm">
+                <div class="flex items-center space-x-2">
+                    <button onclick="toggleNavDrawer()" class="md:hidden bg-slate-200 dark:bg-slate-700 px-2.5 py-1.5 rounded hover:bg-slate-300">
+                        <i class="fa-solid fa-bars"></i> Grid
+                    </button>
+                    <span class="font-bold text-prometric-blue dark:text-sky-400 text-xs md:text-sm" id="itemDomainTag">Domain: Loading...</span>
+                </div>
+
+                <div class="flex items-center space-x-2 md:space-x-3">
+                    <button onclick="toggleCalculator()" class="flex items-center space-x-1.5 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 px-3 py-1.5 rounded transition font-medium text-slate-700 dark:text-slate-200 text-xs">
+                        <i class="fa-solid fa-calculator text-prometric-blue dark:text-sky-400"></i>
+                        <span>Dosage Calculator</span>
+                    </button>
+
+                    <button id="flagBtn" onclick="toggleFlagCurrentQuestion()" class="flex items-center space-x-1.5 bg-slate-200 dark:bg-slate-700 hover:bg-amber-100 text-slate-700 dark:text-slate-200 px-3 py-1.5 rounded transition font-medium border border-transparent text-xs">
+                        <i class="fa-regular fa-flag text-amber-500" id="flagIcon"></i>
+                        <span id="flagText">Mark for Review</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- QUESTION CARD -->
+            <div class="flex-1 p-4 md:p-8 max-w-4xl mx-auto w-full flex flex-col font-sz-md" id="questionTextContainer">
+                <div class="flex justify-between items-center mb-4 pb-2 border-b border-slate-200 dark:border-slate-800">
+                    <span class="text-xs uppercase tracking-wider font-extrabold text-prometric-blue dark:text-sky-400" id="qNumberDisplay">Question 1 of 220</span>
+                    <span class="text-xs bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full text-slate-500 font-mono" id="questionIdDisplay">Item ID: SCFHS-SR-001</span>
+                </div>
+
+                <div class="mb-6 leading-relaxed text-slate-800 dark:text-slate-100 font-medium select-text" id="vignetteDisplay"></div>
+
+                <div class="space-y-3 mb-8" id="optionsContainer"></div>
+            </div>
+
+            <!-- FOOTER CONTROLS -->
+            <footer class="bg-slate-100 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 p-3 md:px-8 flex justify-between items-center sticky bottom-0 z-10">
+                <div>
+                    <button onclick="clearCurrentAnswer()" class="text-xs md:text-sm text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 font-medium flex items-center space-x-1">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        <span>Clear Selection</span>
+                    </button>
+                </div>
+
+                <div class="flex items-center space-x-2 md:space-x-4">
+                    <button id="prevBtn" onclick="navigateQuestion(-1)" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-600 rounded font-semibold text-xs md:text-sm transition flex items-center space-x-2 disabled:opacity-50">
+                        <i class="fa-solid fa-chevron-left"></i>
+                        <span>Previous</span>
+                    </button>
+
+                    <button id="nextBtn" onclick="navigateQuestion(1)" class="px-5 py-2 bg-prometric-blue text-white hover:bg-slate-800 rounded font-semibold text-xs md:text-sm transition flex items-center space-x-2">
+                        <span>Next</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+
+                    <button onclick="confirmSubmitModal()" class="ml-4 px-5 py-2 bg-emerald-600 text-white hover:bg-emerald-700 rounded font-bold text-xs md:text-sm shadow-md transition">
+                        Submit Exam
+                    </button>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <div id="resultsContainer" class="hidden flex-1 overflow-y-auto bg-slate-50 dark:bg-slate-900 p-4 md:p-8">
+        <div class="max-w-6xl mx-auto space-y-8">
+            <div id="scoreBanner" class="p-6 rounded-xl shadow-xl border text-white flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-slate-200">Official SCFHS Psychometric Evaluation</span>
+                    <h2 id="passFailText" class="text-3xl font-extrabold mt-1">CALCULATING...</h2>
+                    <p class="text-sm opacity-90 mt-1">Passing Cut-Score: 65% | Saudi Commission for Health Specialties</p>
+                </div>
+                <div class="text-center md:text-right flex items-center space-x-6">
+                    <div>
+                        <p class="text-5xl font-black font-mono" id="scorePercentage">0%</p>
+                        <p class="text-xs uppercase opacity-80" id="scoreRatio">0 / 220 Correct</p>
+                    </div>
+                    <div id="badgeIcon" class="text-5xl">
+                        <i class="fa-solid fa-award text-prometric-gold"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap justify-between items-center gap-4 bg-white dark:bg-slate-800 p-4 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
+                <div class="flex items-center space-x-2">
+                    <span class="font-bold text-xs uppercase tracking-wider text-slate-600 dark:text-slate-300">Filter Review:</span>
+                    <button onclick="setReviewFilter('all')" class="review-filter-btn px-3 py-1 bg-prometric-blue text-white rounded text-xs font-medium" data-filter="all">All (220)</button>
+                    <button onclick="setReviewFilter('incorrect')" class="review-filter-btn px-3 py-1 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded text-xs font-medium" data-filter="incorrect">Incorrect Only</button>
+                    <button onclick="setReviewFilter('flagged')" class="review-filter-btn px-3 py-1 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded text-xs font-medium" data-filter="flagged">Flagged Items</button>
+                </div>
+                <div class="flex items-center space-x-2 no-print">
+                    <button onclick="window.print()" class="px-3.5 py-1.5 border border-slate-300 dark:border-slate-600 rounded text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center space-x-1.5">
+                        <i class="fa-solid fa-print"></i>
+                        <span>Print Report</span>
+                    </button>
+                    <button onclick="restartExam()" class="px-3.5 py-1.5 bg-prometric-blue text-white rounded text-xs font-semibold hover:bg-slate-800 flex items-center space-x-1.5">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span>Retake Exam</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                <h3 class="font-bold text-base md:text-lg mb-4 text-slate-800 dark:text-slate-100 flex items-center space-x-2">
+                    <i class="fa-solid fa-chart-pie text-prometric-blue dark:text-sky-400"></i>
+                    <span>Domain Mastery Breakdown</span>
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="domainMetricsContainer"></div>
+            </div>
+
+            <div class="space-y-6" id="reviewListContainer"></div>
+        </div>
+    </div>
+
+    <!-- CALCULATOR MODAL -->
+    <div id="calculatorModal" class="hidden fixed bottom-20 right-6 w-64 bg-slate-900 text-white rounded-lg shadow-2xl border border-slate-700 z-50 overflow-hidden">
+        <div class="bg-slate-800 px-3 py-2 flex justify-between items-center text-xs font-bold border-b border-slate-700">
+            <span><i class="fa-solid fa-calculator mr-1"></i> Dosage Calculator</span>
+            <button onclick="toggleCalculator()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="p-3">
+            <input type="text" id="calcScreen" readonly class="w-full bg-slate-950 text-right px-3 py-2 rounded text-lg font-mono text-emerald-400 mb-3 border border-slate-800" value="0">
+            <div class="grid grid-cols-4 gap-1.5 text-sm font-semibold">
+                <button onclick="calcClear()" class="col-span-2 bg-rose-600/80 hover:bg-rose-600 p-2 rounded">C</button>
+                <button onclick="calcInput('/')" class="bg-slate-700 hover:bg-slate-600 p-2 rounded">÷</button>
+                <button onclick="calcInput('*')" class="bg-slate-700 hover:bg-slate-600 p-2 rounded">×</button>
+                <button onclick="calcInput('7')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">7</button>
+                <button onclick="calcInput('8')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">8</button>
+                <button onclick="calcInput('9')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">9</button>
+                <button onclick="calcInput('-')" class="bg-slate-700 hover:bg-slate-600 p-2 rounded">-</button>
+                <button onclick="calcInput('4')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">4</button>
+                <button onclick="calcInput('5')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">5</button>
+                <button onclick="calcInput('6')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">6</button>
+                <button onclick="calcInput('+')" class="bg-slate-700 hover:bg-slate-600 p-2 rounded">+</button>
+                <button onclick="calcInput('1')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">1</button>
+                <button onclick="calcInput('2')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">2</button>
+                <button onclick="calcInput('3')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">3</button>
+                <button onclick="calcEqual()" class="row-span-2 bg-emerald-600 hover:bg-emerald-500 p-2 rounded flex items-center justify-center">=</button>
+                <button onclick="calcInput('0')" class="col-span-2 bg-slate-800 hover:bg-slate-700 p-2 rounded">0</button>
+                <button onclick="calcInput('.')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">.</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUBMIT CONFIRMATION MODAL -->
+    <div id="submitModal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 max-w-md w-full rounded-xl p-6 shadow-2xl border border-slate-200 dark:border-slate-700 space-y-4">
+            <div class="flex items-center space-x-3 text-amber-500">
+                <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
+                <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">Submit Exam Session?</h3>
+            </div>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                You are finalizing your exam attempt. You have answered <span id="modalAnsweredCount" class="font-bold text-emerald-600">0</span> out of 220 questions.
+            </p>
+            <div id="unansweredWarning" class="hidden bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 p-3 rounded text-xs text-amber-800 dark:text-amber-300">
+                <i class="fa-solid fa-circle-info mr-1"></i> You have <span id="modalUnansweredCount" class="font-bold">0</span> unanswered questions. Unanswered items will be marked incorrect.
+            </div>
+            <div class="flex justify-end space-x-3 pt-2">
+                <button onclick="closeSubmitModal()" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded text-xs md:text-sm font-semibold hover:bg-slate-300">Return to Exam</button>
+                <button onclick="finalizeExam()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs md:text-sm font-bold shadow-md">Finalize & Score</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const DOMAINS = {
+            MED_SURG: "Adult Medical-Surgical Nursing (35%)",
+            MATERNAL_CHILD: "Maternal & Child Health Nursing (25%)",
+            LEADERSHIP: "Leadership, Safety & Professional Ethics (15%)",
+            MENTAL_COMMUNITY: "Community & Mental Health Nursing (15%)",
+            EMERGENCY: "Emergency, Trauma & Critical Care (10%)"
+        };
+
+        // Deterministic pseudo-random generator for consistent option shuffling per item
+        function seededRandom(seed) {
+            let x = Math.sin(seed++) * 10000;
+            return x - Math.floor(x);
+        }
+
+        function shuffleOptionsWithKey(optionsArray, rawCorrectIdx, itemSeed) {
+            const indexedOptions = optionsArray.map((opt, i) => ({ text: opt, isCorrect: i === rawCorrectIdx }));
+            for (let i = indexedOptions.length - 1; i > 0; i--) {
+                const j = Math.floor(seededRandom(itemSeed + i) * (i + 1));
+                [indexedOptions[i], indexedOptions[j]] = [indexedOptions[j], indexedOptions[i]];
+            }
+            const newOptions = indexedOptions.map(o => o.text);
+            const newCorrectIndex = indexedOptions.findIndex(o => o.isCorrect);
+            return { shuffledOptions: newOptions, newCorrectIndex };
+        }
+
+        function load220FullVignettes() {
+            const coreMasterBank = [
+                {
+                    domain: DOMAINS.MED_SURG,
+                    vignette: "A 58-year-old male on post-operative day 2 following a total knee arthroplasty suddenly develops acute dyspnea, pleuritic right-sided chest pain, and diaphoresis. Vital signs: BP 102/68 mmHg, HR 118 bpm (sinus tachycardia), RR 28/min, SpO2 88% on room air. Computed Tomography Pulmonary Angiography (CTPA) confirms an acute Pulmonary Embolism (PE). Continuous intravenous unfractionated heparin infusion is initiated. Which laboratory parameter must the senior specialist nurse monitor to titrate the heparin dosage according to therapeutic protocol?",
+                    rawOptions: [
+                        "Activated Partial Thromboplastin Time (aPTT)",
+                        "Prothrombin Time / International Normalized Ratio (PT/INR)",
+                        "Complete Blood Count (CBC) with differential",
+                        "Serum D-dimer quantitative concentration"
+                    ],
+                    rawCorrect: 0,
+                    rationale: "Unfractionated heparin efficacy and safety are directly monitored using aPTT, maintaining a therapeutic target of 1.5 to 2.5 times the baseline control value (typically 60-80 seconds).",
+                    distractorAnalysis: [
+                        "A: CORRECT. aPTT reflects intrinsic coagulation pathway inhibition and guides dosage titration of unfractionated heparin.",
+                        "B: INCORRECT. PT/INR evaluates the extrinsic pathway and monitors Warfarin (Coumadin) therapy, not IV heparin.",
+                        "C: INCORRECT. CBC monitors baseline platelets (to detect Heparin-Induced Thrombocytopenia), but is not used for dose titration.",
+                        "D: INCORRECT. D-dimer confirms fibrinolysis during diagnostic workup, but plays no role in monitoring anticoagulant administration."
+                    ]
+                },
+                {
+                    domain: DOMAINS.EMERGENCY,
+                    vignette: "A 42-year-old female patient admitted with severe urosepsis is undergoing fluid resuscitation in the intensive care unit. She has received 30 mL/kg of IV Lactated Ringer's solution over 2 hours. Current assessment findings: BP 82/46 mmHg (MAP 58 mmHg), HR 126 bpm, serum lactate 4.5 mmol/L. Central venous catheter is in place. What is the priority tie-breaker intervention required to restore target organ perfusion?",
+                    rawOptions: [
+                        "Initiate IV Norepinephrine titrated to maintain MAP ≥ 65 mmHg.",
+                        "Administer a second 30 mL/kg bolus of 0.9% Normal Saline solution.",
+                        "Administer continuous IV Dopamine infusion at 5 mcg/kg/min.",
+                        "Infuse 25% Albumin solution 100 mL rapidly over 15 minutes."
+                    ],
+                    rawCorrect: 0,
+                    rationale: "According to Surviving Sepsis Campaign guidelines, Norepinephrine is the first-line vasopressor of choice for refractory septic shock when fluid resuscitation fails to achieve target MAP ≥ 65 mmHg.",
+                    distractorAnalysis: [
+                        "A: CORRECT. Norepinephrine produces potent alpha-1 vasoconstriction, restoring systemic vascular resistance and organ perfusion in septic shock.",
+                        "B: INCORRECT. Additional fluid boluses when hypotension persists after 30 mL/kg increase risks severe acute pulmonary edema.",
+                        "C: INCORRECT. Dopamine causes significantly higher tachyarrhythmias and mortality compared to Norepinephrine.",
+                        "D: INCORRECT. Albumin is an adjunctive colloid, but does not substitute for primary vasopressor support in refractory hypotension."
+                    ]
+                },
+                {
+                    domain: DOMAINS.MED_SURG,
+                    vignette: "A 66-year-old patient with type 2 diabetes and stage 4 Chronic Kidney Disease (CKD) presents with generalised severe muscle weakness and cardiac palpitations. ECG shows tall peaked T-waves and widening of the QRS complex. Stat laboratory results confirm serum potassium 7.2 mEq/L. Which intravenous medication should the senior nurse administer FIRST to protect against lethal ventricular dysrhythmias?",
+                    rawOptions: [
+                        "10% Calcium Gluconate IV push over 2 to 5 minutes.",
+                        "Regular Insulin 10 units IV push with 50% Dextrose 50 mL.",
+                        "Sodium Polystyrene Sulfonate (Kayexalate) 30 grams orally.",
+                        "Nebulized Albuterol 20 mg continuous inhalation."
+                    ],
+                    rawCorrect: 0,
+                    rationale: "Calcium Gluconate directly antagonizes hyperkalemic membrane excitability, stabilizing cardiac myocytes within 1 to 3 minutes without altering serum potassium concentration.",
+                    distractorAnalysis: [
+                        "A: CORRECT. Calcium Gluconate immediately protects the cardiac membrane against imminent lethal ventricular fibrillation.",
+                        "B: INCORRECT. Insulin/D50 shifts potassium into cells but takes 15-30 minutes to act and lacks cardiac membrane stabilizing effects.",
+                        "C: INCORRECT. Kayexalate excretes potassium via gastrointestinal elimination over several hours, making it unsuitable for acute cardiac emergency.",
+                        "D: INCORRECT. Albuterol drives intracellular potassium shift as adjunctive therapy, but does not stabilize cardiac membrane potentials."
+                    ]
+                },
+                {
+                    domain: DOMAINS.MATERNAL_CHILD,
+                    vignette: "A 31-year-old primigravida at 38 weeks gestation is admitted to labor and delivery with severe preeclampsia. An intravenous infusion of Magnesium Sulfate is initiated at 2 g/hr. During a routine assessment, the nurse notes: Deep Tendon Reflexes (DTR) 0/4 (absent), RR 10 breaths/min, and hourly urine output 18 mL/hr over 2 hours. Which immediate sequence of actions must the nurse take?",
+                    rawOptions: [
+                        "Stop the Magnesium Sulfate infusion immediately and prepare Calcium Gluconate IV.",
+                        "Notify the obstetrician and increase the intravenous crystalloid maintenance rate.",
+                        "Place the patient in a left lateral tilt position and apply oxygen via non-rebreather mask.",
+                        "Obtain a stat serum magnesium blood level and reduce the infusion rate by 50%."
+                    ],
+                    rawCorrect: 0,
+                    rationale: "Absent deep tendon reflexes, bradypnea (<12/min), and oliguria (<30 mL/hr) represent severe Magnesium toxicity. The infusion must be stopped immediately and the antidote (Calcium Gluconate) administered.",
+                    distractorAnalysis: [
+                        "A: CORRECT. Immediate cessation prevents further toxicity and Calcium Gluconate antagonizes neuromuscular blockade.",
+                        "B: INCORRECT. Increasing IV fluids risks acute pulmonary edema in preeclamptic patients with acute renal impairment.",
+                        "C: INCORRECT. Lateral positioning and oxygen do not address systemic magnesium toxicity causing central respiratory depression.",
+                        "D: INCORRECT. The infusion must be completely discontinued immediately when overt clinical signs of toxic depression are present."
+                    ]
+                },
+                {
+                    domain: DOMAINS.LEADERSHIP,
+                    vignette: "A senior registered nurse (RN) is supervising a team on a busy 30-bed medical-surgical unit comprising an LPN/LVN and Unlicensed Assistive Personnel (UAP). Which patient assignment is MOST appropriate to delegate to the LPN/LVN?",
+                    rawOptions: [
+                        "Administering subcutaneous insulin and oral antihypertensives to a stable diabetic patient.",
+                        "Performing the initial admission assessment on a newly admitted stroke patient.",
+                        "Developing a comprehensive discharge teaching plan for a patient with newly diagnosed heart failure.",
+                        "Assisting a bedridden post-operative patient with hygiene, bed bath, and position changes."
+                    ],
+                    rawCorrect: 0,
+                    rationale: "LPN/LVNs can administer routine non-IV medications to clinically stable patients. Initial comprehensive assessments and discharge education require advanced RN clinical evaluation.",
+                    distractorAnalysis: [
+                        "A: CORRECT. Administering routine subcutaneous and oral medications to stable patients falls within LPN scope under RN oversight.",
+                        "B: INCORRECT. Initial comprehensive nursing assessment requires RN-level clinical judgment and cannot be delegated.",
+                        "C: INCORRECT. Formulating care plans and initial teaching requires RN synthesis of complex diagnostic data.",
+                        "D: INCORRECT. Routine hygiene and bed baths are delegated to UAPs rather than utilizing LPN professional capacity."
+                    ]
+                },
+                {
+                    domain: DOMAINS.MENTAL_COMMUNITY,
+                    vignette: "A 29-year-old patient diagnosed with Bipolar I Disorder, current manic episode, is admitted to the psychiatric unit. The patient is pacing the hallway rapidly, speaking in a loud pressurized speech pattern, intrusive with peers, and refusing to sit down for scheduled meals. Which nursing intervention should be prioritized in the plan of care?",
+                    rawOptions: [
+                        "Provide high-calorie, portable finger foods and nutrient-dense hydration shakes continuously throughout the day.",
+                        "Isolate the patient in their room until hyperactive physical behavior completely subsides.",
+                        "Encourage participation in a high-energy group basketball tournament in the gym to expend energy.",
+                        "Confront the patient directly regarding intrusive behaviors and enforce strict environmental solitude."
+                    ],
+                    rawCorrect: 0,
+                    rationale: "Manic patients are unable to sit for meal times, placing them at risk for severe calorie deficit and dehydration. High-calorie portable finger foods maintain caloric intake during physical hyperactivity.",
+                    distractorAnalysis: [
+                        "A: CORRECT. High-calorie finger foods (wraps, sandwiches, smoothies) meet high metabolic needs while patient remains mobile.",
+                        "B: INCORRECT. Isolation without explicit behavioral safety criteria increases panic and violates patient rights.",
+                        "C: INCORRECT. Competitive sports cause excessive sensory overstimulation and escalate risk of physical aggression.",
+                        "D: INCORRECT. Direct confrontation increases defensiveness and triggers aggressive behavioral outbursts."
+                    ]
+                },
+                {
+                    domain: DOMAINS.EMERGENCY,
+                    vignette: "A 24-year-old male is brought to the Emergency Department following a high-speed motor vehicle collision. Tracheal deviation to the left, absent breath sounds over the right hemithorax, hyperresonance to percussion, and severe hypotension (BP 74/40 mmHg) are noted. What emergency procedure must be performed immediately prior to obtaining a chest X-ray?",
+                    rawOptions: [
+                        "Perform emergency needle decompression in the 2nd intercostal space at the midclavicular line.",
+                        "Prepare for immediate endotracheal intubation and mechanical positive pressure ventilation.",
+                        "Insert a 36-Fr chest tube into the 5th intercostal space at the midaxillary line.",
+                        "Administer a 2-liter rapid bolus of warm normal saline via two large-bore peripheral IV lines."
+                    ],
+                    rawCorrect: 0,
+                    rationale: "Tension pneumothorax is a clinical diagnosis. Immediate needle thoracostomy converts tension pneumothorax into simple pneumothorax, relieving obstructive shock and saving life.",
+                    distractorAnalysis: [
+                        "A: CORRECT. Needle decompression instantly relieves trapped intrathoracic air and restores venous return to the heart.",
+                        "B: INCORRECT. Positive pressure ventilation without decompression increases intrathoracic pressure, accelerating cardiac collapse.",
+                        "C: INCORRECT. Chest tube placement is definitive care, but immediate needle decompression takes precedence to relieve tension.",
+                        "D: INCORRECT. Hypotension is caused by physical compression of the inferior vena cava; fluids alone will not restore blood pressure."
+                    ]
+                },
+                {
+                    domain: DOMAINS.MED_SURG,
+                    vignette: "A 52-year-old male chronic smoker with a history of severe COPD presents to the ED with acute dyspnea and purulent sputum. ABG analysis on room air reveals: pH 7.28, PaCO2 68 mmHg, PaO2 52 mmHg, HCO3 30 mEq/L. Which non-invasive oxygen delivery strategy should the nurse initiate to treat severe respiratory acidosis and hypoxia?",
+                    rawOptions: [
+                        "Initiate Non-Invasive Positive Pressure Ventilation (NIPPV/BiPAP).",
+                        "Apply a Non-Rebreather Mask at 15 L/min continuous oxygen flow.",
+                        "Administer oxygen via Simple Face Mask at 8 L/min.",
+                        "Place patient on high-flow nasal cannula at 60 L/min with FiO2 1.0."
+                    ],
+                    rawCorrect: 0,
+                    rationale: "BiPAP provides inspiratory pressure support to reduce work of breathing and flush out retained CO2 while delivering oxygen, correcting acute hypercapnic respiratory acidosis in COPD.",
+                    distractorAnalysis: [
+                        "A: CORRECT. BiPAP unloads fatigued respiratory muscles, decreases PaCO2, and improves oxygenation, preventing invasive intubation.",
+                        "B: INCORRECT. Uncontrolled high oxygen via NRB suppresses hypoxic respiratory drive in chronic retainers, escalating CO2 narcosis.",
+                        "C: INCORRECT. Simple face mask lacks positive pressure needed to blow off retained PaCO2 in acute acidotic retention.",
+                        "D: INCORRECT. 100% FiO2 without pressure support worsens severe hypercapnic hypoventilation."
+                    ]
+                },
+                {
+                    domain: DOMAINS.MATERNAL_CHILD,
+                    vignette: "A 6-year-old child with severe acute asthma exacerbation is admitted to the pediatric unit. The child displays intercostal retractions, nasal flaring, and audible wheezing. Following administration of repeated nebulized Salbutamol and Ipratropium, the nurse reassesses the child and notes silent chest sounds upon auscultation with an SpO2 of 85%. How should the nurse interpret this finding?",
+                    rawOptions: [
+                        "An ominous clinical sign indicating critical respiratory failure requiring immediate emergency airway intervention.",
+                        "A favorable clinical response showing resolution of bronchospasm and reduced airway inflammation.",
+                        "An expected side effect of anticholinergic bronchodilator therapy requiring observation.",
+                        "An indication to administer oral antipyretics and sedatives to lower oxygen demand."
+                    ],
+                    rawCorrect: 0,
+                    rationale: "A 'silent chest' in an acutely asthmatic child indicates severe bronchial constriction with virtually no air movement, signaling imminent respiratory arrest.",
+                    distractorAnalysis: [
+                        "A: CORRECT. Absence of wheezing with profound hypoxia indicates total air movement collapse; immediate intubation setup required.",
+                        "B: INCORRECT. Misinterpreting silent chest as clinical improvement is a fatal pediatric oversight.",
+                        "C: INCORRECT. Silent chest is a sign of critical airway obstruction, not a benign drug side effect.",
+                        "D: INCORRECT. Sedatives depress central respiratory drive and are strictly contraindicated in acute pediatric asthma."
+                    ]
+                },
+                {
+                    domain: DOMAINS.LEADERSHIP,
+                    vignette: "While preparing morning medications, a registered nurse realizes that she inadvertently administered 10 units of Regular Insulin instead of 10 units of Glargine Insulin to a bedridden patient 15 minutes ago. The patient is currently asymptomatic with a blood glucose of 110 mg/dL. Which sequence of actions represents the correct ethical and professional priority?",
+                    rawOptions: [
+                        "Assess the patient immediately, provide simple carbohydrates, notify the attending physician, and file an incident report.",
+                        "File an incident report quietly without documenting in the medical record, provided the patient remains asymptomatic.",
+                        "Wait 2 hours to evaluate blood glucose levels before deciding whether to notify the attending physician.",
+                        "Document the incident report contents directly inside the patient's official shift progress notes."
+                    ],
+                    rawCorrect: 0,
+                    rationale: "Patient safety and physiological monitoring are paramount. Provide carbohydrates to avert hypoglycemia, report error to physician, and file an internal incident report without placing internal quality documents in medical chart.",
+                    distractorAnalysis: [
+                        "A: CORRECT. Ensures immediate patient safety, physician awareness, and fulfills quality assurance incident reporting.",
+                        "B: INCORRECT. Concealing medication errors breaches nursing ethics and risks severe late hypoglycemia when Regular insulin peaks.",
+                        "C: INCORRECT. Regular insulin peak occurs at 2-4 hours; waiting allows severe unmonitored hypoglycemia to develop.",
+                        "D: INCORRECT. Incident reports are internal risk management tools and must NEVER be referenced or documented inside patient charts."
+                    ]
+                }
+            ];
+
+            const fullBank = [];
+            const domainKeys = Object.values(DOMAINS);
+
+            for (let i = 0; i < 220; i++) {
+                if (i < coreMasterBank.length) {
+                    const item = coreMasterBank[i];
+                    const { shuffledOptions, newCorrectIndex } = shuffleOptionsWithKey(item.rawOptions, item.rawCorrect, i + 101);
+                    fullBank.push({
+                        id: `SCFHS-SR-${String(i + 1).padStart(3, '0')}`,
+                        domain: item.domain,
+                        vignette: `[Item #${i + 1}] ${item.vignette}`,
+                        options: shuffledOptions,
+                        correctIndex: newCorrectIndex,
+                        rationale: item.rationale,
+                        distractorAnalysis: item.distractorAnalysis
+                    });
+                } else {
+                    const dom = domainKeys[i % domainKeys.length];
+                    const qNum = i + 1;
+                    
+                    let vText = "";
+                    let opts = [];
+                    let cIdx = (i * 7) % 4;
+                    let rat = "";
+                    let da = [];
+
+                    if (dom === DOMAINS.MED_SURG) {
+                        vText = `A 63-year-old male patient with chronic osteomyelitis of the right tibia presents with localized bone pain, purulent drainage, and low-grade fever. Laboratory tests show ESR 88 mm/hr and WBC 14,800/mm³. Long-term IV Vancomycin via a PICC line is ordered. To prevent Vancomycin-induced nephrotoxicity and ototoxicity, which nursing assessment and monitoring protocol is essential?`;
+                        opts = [
+                            "Obtain trough blood levels immediately prior to the 4th dose and monitor serum creatinine daily.",
+                            "Check peak serum Vancomycin levels 15 minutes after completion of every intravenous infusion.",
+                            "Flush PICC line with 50 units Heparin bolus prior to each antibiotic drug administration.",
+                            "Restrict oral fluid intake to 1,000 mL daily to prevent severe acute pulmonary edema."
+                        ];
+                        rat = "Trough Vancomycin levels (target 15-20 mcg/mL for osteomyelitis) ensure therapeutic efficacy while preventing acute kidney injury.";
+                        da = [
+                            "A: CORRECT. Trough level drawn before 4th dose guarantees steady-state concentration monitoring to protect renal clearance.",
+                            "B: INCORRECT. Trough levels, not peak levels, guide clinical dosage adjustments to reduce toxicity risk.",
+                            "C: INCORRECT. Routine high-dose heparin flushing is unnecessary and increases bleeding complications.",
+                            "D: INCORRECT. Hydration should be maintained, not restricted, to facilitate renal clearance of Vancomycin."
+                        ];
+                    } else if (dom === DOMAINS.MATERNAL_CHILD) {
+                        vText = `A 28-year-old multipara at 34 weeks gestation presents to the obstetric triage unit with sudden, painless, bright red vaginal bleeding. Uterine tone is soft and non-tender, and fetal heart rate is reassuring at 144 bpm. Which diagnostic intervention is strictly CONTRAINDICATED during the initial nursing examination?`;
+                        opts = [
+                            "Performing a digital vaginal examination to assess cervical dilation.",
+                            "Obtaining a transabdominal ultrasound evaluation.",
+                            "Initiating continuous external electronic fetal monitoring.",
+                            "Inserting two large-bore 16-gauge peripheral IV catheters."
+                        ];
+                        rat = "Painless bright red bleeding suggests Placenta Previa. Digital vaginal exams can disrupt placental attachments, inducing catastrophic maternal-fetal hemorrhage.";
+                        da = [
+                            "A: CORRECT. Digital vaginal examination can cause massive placental detachment and maternal exsanguination.",
+                            "B: INCORRECT. Ultrasound is the safe diagnostic standard to locate placental position.",
+                            "C: INCORRECT. Continuous FHR monitoring is essential to confirm fetal well-being.",
+                            "D: INCORRECT. Vascular IV access is vital preparation for potential obstetric hemorrhagic shock."
+                        ];
+                    } else if (dom === DOMAINS.EMERGENCY) {
+                        vText = `A 55-year-old patient with acute ST-elevation myocardial infarction (STEMI) suddenly loses consciousness. Cardiac monitor displays fine, chaotic ventricular fibrillation. The defibrillator is immediately brought to the bedside. What is the priority sequence of actions?`;
+                        opts = [
+                            "Perform immediate unsynchronized defibrillation at 200 Joules (biphasic) and immediately resume chest compressions.",
+                            "Administer IV Epinephrine 1 mg push followed immediately by synchronized cardioversion at 100 Joules.",
+                            "Perform 2 minutes of continuous high-quality CPR before attempting initial shock delivery.",
+                            "Deliver a precordial thump and obtain a full 12-lead ECG to confirm rhythm change."
+                        ];
+                        rat = "Ventricular fibrillation requires immediate unsynchronized defibrillation followed instantly by CPR without pausing for immediate pulse checks.";
+                        da = [
+                            "A: CORRECT. Defibrillation is the primary definitive treatment for V-Fib; minimizing interruption to CPR is crucial.",
+                            "B: INCORRECT. Synchronized cardioversion cannot track chaotic V-Fib waves and will fail to discharge energy.",
+                            "C: INCORRECT. Delaying shock delivery when defibrillator is present reduces survival rates in witnessed arrest.",
+                            "D: INCORRECT. Precordial thump is obsolete and delays life-saving electrical defibrillation."
+                        ];
+                    } else if (dom === DOMAINS.LEADERSHIP) {
+                        vText = `A nurse manager is evaluating ward compliance with National Patient Safety Goals regarding two patient identifiers. During shift change observation, which method conforms strictly to accredited safety standards?`;
+                        opts = [
+                            "Comparing the patient's full name and medical record number (MRN) on wristband against the MAR.",
+                            "Asking the patient 'Are you Mr. Ahmed?' while checking the room card number.",
+                            "Verifying the patient's bed number and room location code against the daily shift roster.",
+                            "Checking the patient's first name and diagnosis recorded on the bedside white board."
+                        ];
+                        rat = "Two unique identifiers (Full Name and MRN/DOB) must be verified directly against medication records. Room or bed numbers are variable and dangerous.";
+                        da = [
+                            "A: CORRECT. Full name and MRN are permanent unique identifiers required by international patient safety standards.",
+                            "B: INCORRECT. Asking leading questions can result in confused patients nodding affirmatively to wrong names.",
+                            "C: INCORRECT. Room and bed numbers are temporary indicators and lead to severe medication errors.",
+                            "D: INCORRECT. Bedside whiteboards contain limited identifiers and breach health privacy laws."
+                        ];
+                    } else {
+                        vText = `A 34-year-old psychiatric patient receiving Haloperidol 10 mg daily develops acute muscular stiffness, high fever (39.8°C), diaphoresis, autonomic instability (BP 168/102 mmHg, HR 122 bpm), and elevated serum creatine kinase (CK). What critical condition must the nurse suspect?`;
+                        opts = [
+                            "Neuroleptic Malignant Syndrome (NMS)",
+                            "Extrapyramidal Acute Dystonic Reaction",
+                            "Serotonin Syndrome Toxicity",
+                            "Central Anticholinergic Delirium"
+                        ];
+                        rat = "NMS is a life-threatening reaction to antipsychotics characterized by fever, 'lead-pipe' muscle rigidity, autonomic instability, and elevated CK.";
+                        da = [
+                            "A: CORRECT. High fever, rigidity, autonomic dysfunction, and high CK indicate NMS; drug must be stopped immediately.",
+                            "B: INCORRECT. Acute dystonia involves localized muscular spasms (torticollis) without high fever or severe CK elevation.",
+                            "C: INCORRECT. Serotonin syndrome features hyperreflexia and clonus, caused by serotonergic combinations, not dopamine blockers.",
+                            "D: INCORRECT. Anticholinergic toxicity causes hyperthermia with dry skin and dilated pupils, lacking muscle rigidity."
+                        ];
+                    }
+
+                    const { shuffledOptions, newCorrectIndex } = shuffleOptionsWithKey(opts, cIdx, i + 101);
+
+                    fullBank.push({
+                        id: `SCFHS-SR-${String(qNum).padStart(3, '0')}`,
+                        domain: dom,
+                        vignette: `[Item #${qNum}] ${vText}`,
+                        options: shuffledOptions,
+                        correctIndex: newCorrectIndex,
+                        rationale: rat,
+                        distractorAnalysis: da
+                    });
+                }
+            }
+
+            return fullBank;
+        }
+
+        // Global Exam Application State Variables
+        let examQuestions = [];
+        let currentIndex = 0;
+        let userAnswers = new Array(220).fill(null);
+        let flaggedItems = new Array(220).fill(false);
+        let timeRemainingSeconds = 240 * 60; // 4 Hours
+        let timerInterval = null;
+        let isSubmitted = false;
+        let currentFilter = 'all';
+
+        window.onload = function() {
+            examQuestions = load220FullVignettes();
+            loadSavedState();
+            renderGrid();
+            renderQuestion();
+            startTimer();
+            updateProgressCounters();
+        };
+
+        function renderGrid() {
+            const grid = document.getElementById('questionGrid');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < 220; i++) {
+                const btn = document.createElement('button');
+                btn.id = `grid-btn-${i}`;
+                btn.className = getGridBtnClass(i);
+                btn.textContent = i + 1;
+                btn.onclick = () => jumpToQuestion(i);
+                grid.appendChild(btn);
+            }
+        }
+
+        function getGridBtnClass(index) {
+            let base = "h-8 w-full text-xs font-semibold rounded flex items-center justify-center transition border ";
+            if (index === currentIndex) {
+                base += "ring-2 ring-prometric-blue dark:ring-sky-400 font-bold ";
+            }
+
+            if (flaggedItems[index]) {
+                return base + "bg-amber-500 text-white border-amber-600";
+            } else if (userAnswers[index] !== null) {
+                return base + "bg-emerald-600 text-white border-emerald-700";
+            } else {
+                return base + "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700 hover:bg-slate-100";
+            }
+        }
+
+        function updateGridBtn(index) {
+            const btn = document.getElementById(`grid-btn-${index}`);
+            if (btn) btn.className = getGridBtnClass(index);
+        }
+
+        function renderQuestion() {
+            const q = examQuestions[currentIndex];
+
+            document.getElementById('qNumberDisplay').textContent = `Question ${currentIndex + 1} of 220`;
+            document.getElementById('questionIdDisplay').textContent = `Item ID: ${q.id}`;
+            document.getElementById('itemDomainTag').textContent = `Domain: ${q.domain}`;
+            document.getElementById('vignetteDisplay').textContent = q.vignette;
+
+            const flagBtn = document.getElementById('flagBtn');
+            const flagIcon = document.getElementById('flagIcon');
+            const flagText = document.getElementById('flagText');
+
+            if (flaggedItems[currentIndex]) {
+                flagBtn.classList.add('bg-amber-100', 'border-amber-400', 'dark:bg-amber-900/40');
+                flagIcon.className = "fa-solid fa-flag text-amber-500";
+                flagText.textContent = "Flagged";
+            } else {
+                flagBtn.classList.remove('bg-amber-100', 'border-amber-400', 'dark:bg-amber-900/40');
+                flagIcon.className = "fa-regular fa-flag text-slate-500";
+                flagText.textContent = "Mark for Review";
+            }
+
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            const labels = ['A', 'B', 'C', 'D'];
+
+            q.options.forEach((optText, optIdx) => {
+                const isSelected = userAnswers[currentIndex] === optIdx;
+
+                const card = document.createElement('div');
+                card.onclick = () => selectOption(optIdx);
+                card.className = `p-4 rounded-lg border-2 cursor-pointer transition flex items-start space-x-3 ${
+                    isSelected 
+                        ? 'border-prometric-blue bg-blue-50/70 dark:bg-slate-800 dark:border-sky-500 shadow-sm' 
+                        : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 bg-white dark:bg-slate-800/40'
+                }`;
+
+                card.innerHTML = `
+                    <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 ${
+                        isSelected 
+                            ? 'border-prometric-blue bg-prometric-blue text-white dark:border-sky-500 dark:bg-sky-500' 
+                            : 'border-slate-400 text-slate-600 dark:text-slate-400'
+                    }">
+                        ${labels[optIdx]}
+                    </div>
+                    <div class="text-sm md:text-base leading-snug text-slate-800 dark:text-slate-200">${optText}</div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            document.getElementById('prevBtn').disabled = currentIndex === 0;
+            document.getElementById('questionContentArea').scrollTop = 0;
+
+            saveState();
+        }
+
+        function selectOption(optIdx) {
+            userAnswers[currentIndex] = optIdx;
+            updateGridBtn(currentIndex);
+            renderQuestion();
+            updateProgressCounters();
+        }
+
+        function clearCurrentAnswer() {
+            userAnswers[currentIndex] = null;
+            updateGridBtn(currentIndex);
+            renderQuestion();
+            updateProgressCounters();
+        }
+
+        function toggleFlagCurrentQuestion() {
+            flaggedItems[currentIndex] = !flaggedItems[currentIndex];
+            updateGridBtn(currentIndex);
+            renderQuestion();
+        }
+
+        function navigateQuestion(dir) {
+            const old = currentIndex;
+            currentIndex += dir;
+            if (currentIndex < 0) currentIndex = 0;
+            if (currentIndex >= 220) currentIndex = 219;
+            updateGridBtn(old);
+            updateGridBtn(currentIndex);
+            renderQuestion();
+        }
+
+        function jumpToQuestion(idx) {
+            const old = currentIndex;
+            currentIndex = idx;
+            updateGridBtn(old);
+            updateGridBtn(currentIndex);
+            renderQuestion();
+            if (window.innerWidth < 768) toggleNavDrawer();
+        }
+
+        function updateProgressCounters() {
+            const answered = userAnswers.filter(a => a !== null).length;
+            document.getElementById('completionCounter').textContent = `${answered} / 220`;
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if (timeRemainingSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Exam duration completed. Automatic final evaluation initiated.");
+                    finalizeExam();
+                    return;
+                }
+                timeRemainingSeconds--;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const h = Math.floor(timeRemainingSeconds / 3600);
+            const m = Math.floor((timeRemainingSeconds % 3600) / 60);
+            const s = timeRemainingSeconds % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        }
+
+        function saveState() {
+            const state = { userAnswers, flaggedItems, timeRemainingSeconds, currentIndex };
+            localStorage.setItem('scfhs_senior_prometric_state_v4', JSON.stringify(state));
+        }
+
+        function loadSavedState() {
+            const saved = localStorage.getItem('scfhs_senior_prometric_state_v4');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.userAnswers && parsed.userAnswers.length === 220) {
+                        userAnswers = parsed.userAnswers;
+                        flaggedItems = parsed.flaggedItems || flaggedItems;
+                        timeRemainingSeconds = parsed.timeRemainingSeconds || timeRemainingSeconds;
+                        currentIndex = parsed.currentIndex || 0;
+                    }
+                } catch(e) {
+                    console.error("Error loading saved state", e);
+                }
+            }
+        }
+
+        function toggleNavDrawer() {
+            document.getElementById('navDrawer').classList.toggle('-translate-x-full');
+        }
+
+        function changeFontSize(sz) {
+            const c = document.getElementById('questionTextContainer');
+            c.classList.remove('font-sz-sm', 'font-sz-md', 'font-sz-lg', 'font-sz-xl');
+            if (sz === 'sm') c.classList.add('font-sz-sm');
+            if (sz === 'md') c.classList.add('font-sz-md');
+            if (sz === 'lg') c.classList.add('font-sz-lg');
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                icon.className = "fa-solid fa-moon text-sm";
+            } else {
+                html.classList.add('dark');
+                icon.className = "fa-solid fa-sun text-sm text-amber-400";
+            }
+        }
+
+        function toggleCalculator() {
+            document.getElementById('calculatorModal').classList.toggle('hidden');
+        }
+
+        function calcInput(v) {
+            const s = document.getElementById('calcScreen');
+            if (s.value === '0' || s.value === 'Error') s.value = '';
+            s.value += v;
+        }
+
+        function calcClear() {
+            document.getElementById('calcScreen').value = '0';
+        }
+
+        function calcEqual() {
+            const s = document.getElementById('calcScreen');
+            try { s.value = eval(s.value); } catch(e) { s.value = 'Error'; }
+        }
+
+        function confirmSubmitModal() {
+            const answered = userAnswers.filter(a => a !== null).length;
+            const unanswered = 220 - answered;
+
+            document.getElementById('modalAnsweredCount').textContent = answered;
+            document.getElementById('modalUnansweredCount').textContent = unanswered;
+
+            const warn = document.getElementById('unansweredWarning');
+            if (unanswered > 0) warn.classList.remove('hidden');
+            else warn.classList.add('hidden');
+
+            document.getElementById('submitModal').classList.remove('hidden');
+        }
+
+        function closeSubmitModal() {
+            document.getElementById('submitModal').classList.add('hidden');
+        }
+
+        function finalizeExam() {
+            closeSubmitModal();
+            clearInterval(timerInterval);
+            isSubmitted = true;
+            localStorage.removeItem('scfhs_senior_prometric_state_v4');
+
+            document.getElementById('examContainer').classList.add('hidden');
+            document.getElementById('resultsContainer').classList.remove('hidden');
+
+            calculateResults();
+        }
+
+        function calculateResults() {
+            let correctCount = 0;
+            const domainStats = {};
+
+            Object.values(DOMAINS).forEach(d => {
+                domainStats[d] = { total: 0, correct: 0 };
+            });
+
+            examQuestions.forEach((q, idx) => {
+                const userAns = userAnswers[idx];
+                const isCorrect = userAns === q.correctIndex;
+
+                if (isCorrect) correctCount++;
+
+                if (domainStats[q.domain]) {
+                    domainStats[q.domain].total++;
+                    if (isCorrect) domainStats[q.domain].correct++;
+                }
+            });
+
+            const percentage = Math.round((correctCount / 220) * 100);
+            const isPassed = percentage >= 65;
+
+            const banner = document.getElementById('scoreBanner');
+            const passFailText = document.getElementById('passFailText');
+            document.getElementById('scorePercentage').textContent = `${percentage}%`;
+            document.getElementById('scoreRatio').textContent = `${correctCount} / 220 Correct`;
+
+            if (isPassed) {
+                banner.className = "p-6 rounded-xl shadow-xl border text-white flex flex-col md:flex-row justify-between items-center bg-gradient-to-r from-emerald-800 to-teal-900 border-emerald-600";
+                passFailText.textContent = "RESULT: PASSED";
+            } else {
+                banner.className = "p-6 rounded-xl shadow-xl border text-white flex flex-col md:flex-row justify-between items-center bg-gradient-to-r from-rose-900 to-red-950 border-rose-700";
+                passFailText.textContent = "RESULT: FAILED";
+            }
+
+            const domainContainer = document.getElementById('domainMetricsContainer');
+            domainContainer.innerHTML = '';
+
+            Object.keys(domainStats).forEach(domName => {
+                const st = domainStats[domName];
+                const pct = st.total > 0 ? Math.round((st.correct / st.total) * 100) : 0;
+
+                const card = document.createElement('div');
+                card.className = "p-4 bg-slate-50 dark:bg-slate-900/60 rounded-lg border border-slate-200 dark:border-slate-700";
+                card.innerHTML = `
+                    <div class="flex justify-between items-center mb-1 text-xs font-bold">
+                        <span class="text-slate-700 dark:text-slate-300">${domName}</span>
+                        <span class="${pct >= 65 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}">${pct}% (${st.correct}/${st.total})</span>
+                    </div>
+                    <div class="w-full bg-slate-200 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden">
+                        <div class="h-full ${pct >= 65 ? 'bg-emerald-500' : 'bg-rose-500'}" style="width: ${pct}%"></div>
+                    </div>
+                `;
+                domainContainer.appendChild(card);
+            });
+
+            renderReviewList();
+        }
+
+        function renderReviewList() {
+            const container = document.getElementById('reviewListContainer');
+            container.innerHTML = '';
+            const labels = ['A', 'B', 'C', 'D'];
+
+            examQuestions.forEach((q, idx) => {
+                const userAns = userAnswers[idx];
+                const isCorrect = userAns === q.correctIndex;
+                const isFlagged = flaggedItems[idx];
+
+                if (currentFilter === 'incorrect' && isCorrect) return;
+                if (currentFilter === 'flagged' && !isFlagged) return;
+
+                const card = document.createElement('div');
+                card.className = `p-6 bg-white dark:bg-slate-800 rounded-xl border shadow-sm space-y-4 ${
+                    isCorrect ? 'border-emerald-200 dark:border-emerald-900/50' : 'border-rose-200 dark:border-rose-900/50'
+                }`;
+
+                let optionsHtml = '';
+                q.options.forEach((optText, optIdx) => {
+                    let style = "border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/40";
+                    let badge = "";
+
+                    if (optIdx === q.correctIndex) {
+                        style = "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-200 font-medium";
+                        badge = `<span class="ml-auto text-xs font-bold px-2 py-0.5 bg-emerald-600 text-white rounded">Correct Key</span>`;
+                    } else if (optIdx === userAns && !isCorrect) {
+                        style = "border-rose-500 bg-rose-50 dark:bg-rose-950/30 text-rose-900 dark:text-rose-200";
+                        badge = `<span class="ml-auto text-xs font-bold px-2 py-0.5 bg-rose-600 text-white rounded">Your Choice</span>`;
+                    }
+
+                    optionsHtml += `
+                        <div class="p-3 rounded-lg border text-sm flex items-center space-x-3 ${style}">
+                            <span class="w-6 h-6 rounded-full border flex items-center justify-center text-xs font-bold shrink-0">${labels[optIdx]}</span>
+                            <span>${optText}</span>
+                            ${badge}
+                        </div>
+                    `;
+                });
+
+                let distractorHtml = q.distractorAnalysis.map(da => `<li class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">${da}</li>`).join('');
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start pb-2 border-b border-slate-100 dark:border-slate-700">
+                        <div class="flex items-center space-x-2">
+                            <span class="px-2.5 py-1 text-xs font-bold rounded ${isCorrect ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300'}">
+                                ${isCorrect ? 'Correct' : 'Incorrect'}
+                            </span>
+                            <span class="text-xs font-semibold text-slate-500">Item #${idx + 1} (${q.id})</span>
+                        </div>
+                        <span class="text-xs px-2.5 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full">${q.domain}</span>
+                    </div>
+
+                    <p class="font-medium text-slate-800 dark:text-slate-100 leading-relaxed text-sm md:text-base">${q.vignette}</p>
+
+                    <div class="space-y-2">${optionsHtml}</div>
+
+                    <div class="p-4 bg-slate-50 dark:bg-slate-900/80 rounded-lg border border-slate-200 dark:border-slate-700 space-y-3">
+                        <div>
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-prometric-blue dark:text-sky-400 flex items-center space-x-1">
+                                <i class="fa-solid fa-lightbulb"></i>
+                                <span>Clinical Rationale</span>
+                            </h4>
+                            <p class="text-xs md:text-sm text-slate-700 dark:text-slate-300 mt-1 leading-relaxed">${q.rationale}</p>
+                        </div>
+                        
+                        <div class="pt-2 border-t border-slate-200 dark:border-slate-800">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Psychometric Distractor Analysis</h4>
+                            <ul class="space-y-1 list-disc list-inside">
+                                ${distractorHtml}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function setReviewFilter(filterType) {
+            currentFilter = filterType;
+            document.querySelectorAll('.review-filter-btn').forEach(btn => {
+                if (btn.dataset.filter === filterType) {
+                    btn.className = "review-filter-btn px-3 py-1 bg-prometric-blue text-white rounded text-xs font-medium";
+                } else {
+                    btn.className = "review-filter-btn px-3 py-1 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded text-xs font-medium";
+                }
+            });
+            renderReviewList();
+        }
+
+        function restartExam() {
+            if (confirm("Are you sure you want to reset and restart your examination?")) {
+                localStorage.removeItem('scfhs_senior_prometric_state_v4');
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
